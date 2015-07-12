@@ -7,8 +7,6 @@ node_modules
 /bower_components/jquery/bower.json
 /bower_components/jquery/MIT-LICENSE.txt
 
-/bower_components/jquery-ui/*
-!/bower_components/jquery-ui/jquery-ui.min.js
 
 /bower_components/handlebars/*
 !/bower_components/handlebars/handlebars.min.js
