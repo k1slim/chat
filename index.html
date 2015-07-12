@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="bower_components/jquery-ui/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="css/compiled/main.css">
+    <script data-main="js/init" src="bower_components/requirejs/require.js"></script>
+    <title>Чатик</title>
+</head>
+<body>
+    <section class="content">
+        <div class="chatHeader">
+             <div class="chatTitle">
+                 Chat
+             </div>
+             <div class="nickField">
+             </div>
+        </div>
+            <div class="messageField">
+                <ul>
+                    <!--<li>
+                        <div class="message">
+                            <div class="messageNick">
+                                <span>
+                                    Vasa vasin
+                                </span>
+                            </div>
+                            <div class="messageText">
+                                <div class="messageTextDiv">
+                                    Йцукен
+                                </div>
+                                <div class="messageTime">
+                                    17:25
+                                </div>
+                            </div>
+                        </div>
+                    </li>-->
+
+                </ul>
+            </div>
+
+        <div class="entryField">
+             <div>
+                 <input type="text" id="textField"/>
+             </div>
+             <div class="sendField">
+                 <input type="button"  value="Send" id="sendButton"/>
+             </div>
+        </div>
+    </section>
+
+    <section class="auth">
+        <div class="error">
+
+        </div>
+        <div class="nameField">
+            <div>
+                <input type="text" placeholder="Nickname" id="nick"/>
+            </div>
+            <div class="okButtonField">
+                <input type="button" value="Ok" id="authButton"/>
+            </div>
+        </div>
+    </section>
+
+    <section class="block">
+
+    </section>
+
+</body>
+</html>

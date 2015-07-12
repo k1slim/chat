@@ -1,0 +1,200 @@
+@import "var";
+
+.content{
+    margin:auto;
+    width:35%;
+    min-width:120px;
+    padding-right:4px;
+    font-family:Verdana, Arial, sans-serif;
+}
+
+.chatHeader{
+    background:@background;
+    border:2px solid @borderCol;
+    border-bottom:1px solid @borderCol;
+    display:table;
+    width:100%;
+    height:42px;
+
+    div{
+        display: table-cell;
+        padding:10px;
+    }
+
+    .nickField{
+        text-align:right;
+    }
+}
+
+
+.messageField{
+    width:100%;
+    min-height: 100px;
+    height:25em;
+    border-left:2px solid @borderCol;
+    border-right:2px solid @borderCol;
+    overflow: auto;
+
+    ul{
+        list-style:none;
+        -webkit-margin-before:0;
+        -webkit-margin-after:0;
+        -webkit-padding-start:0;
+    }
+
+    .message{
+        display:table;
+        width:100%;
+        border-bottom:1px solid @borderCol;
+        font-size:14px;
+        color:#5d7185;
+
+        >div{
+            display: table-cell;
+            padding: 5px 10px;
+        }
+
+        .messageNick{
+            width:20%;
+            border-right:1px solid @borderCol;
+            font-weight:bold;
+        }
+
+        .messageText{
+            display:table;
+
+            div{
+                display: table-cell;
+                padding:5px;
+            }
+
+            .messageTextDiv{
+                width:100%;
+                word-wrap:break-word;
+                word-break:break-all;
+            }
+
+            .messageTime{
+                font-size:10px;
+                color:#738ba3;
+            }
+        }
+    }
+}
+
+.entryField{
+    border:2px solid @borderCol;
+    border-top:1px solid @borderCol;
+    background:@background;
+    display:table;
+    width:100%;
+    height:53px;
+
+    >div{
+        display: table-cell;
+        padding:10px;
+    }
+
+    .sendField{
+        width:15%;
+    }
+}
+
+#sendButton,#authButton{
+    border: 1px solid @borderCol;
+    border-radius:5px;
+    height:30px;
+    width:100%;
+    box-sizing: border-box;
+
+    &:focus{
+        border-radius:5px;
+        border:2px solid rgb(140, 180, 238);
+        outline:none;
+    }
+
+    &:hover{
+        cursor:pointer;
+    }
+
+    &:active{
+        background:white;
+    }
+}
+
+#textField,#nick{
+    border: 1px solid @borderCol;
+    border-radius:5px;
+    width:100%;
+    height:30px;
+    box-sizing: border-box;
+    padding:10px;
+
+    &:focus{
+        border-radius:5px;
+        border:2px solid rgb(140, 180, 238);
+        outline:none;
+    }
+}
+
+
+
+.auth{
+    z-index:10;
+    position:fixed;
+    top:20%;
+    left:50%;
+    margin-left:-125px;
+    width:250px;
+    border:2px solid @borderCol;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    background:@background;
+    padding:5px 5px;
+
+    .error{
+        display:none;
+        border:1px solid red;
+        border-radius:5px;
+        padding:5px;
+        margin:10px;
+        position:relative;
+
+        &:before, &:after {
+            content: '';
+            position: absolute;
+            left: 15px;
+            bottom: -15px;
+            border: 7px solid transparent;
+            border-top: 7px solid red;
+        }
+        &:after {
+            border-top: 7px solid @background;
+            bottom: -14px;
+        }
+    }
+
+    .nameField{
+        display:table;
+        width:100%;
+
+        div{
+            display: table-cell;
+            padding:10px;
+        }
+
+        .okButtonField{
+            width:22%;
+        }
+    }
+}
+
+.block{
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:9;
+    width:100%;
+    height:100%;
+    opacity:0.35;
+    background:black;
+}
