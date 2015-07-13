@@ -17,7 +17,8 @@ define(['jquery', 'io', 'handlebars', 'text!../template/messageTemplate.hbs'],
 
                 var self=this;
 
-                this.socket = io.connect('http://chat-k1slim.rhcloud.com');
+                this.socket = io.connect('ws://chat-k1slim.rhcloud.com');
+                //было html
 
                             //Listeners
                 this.socket.on('message', function(data){
