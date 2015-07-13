@@ -16,5 +16,3 @@ node_modules
 
 /bower_components/requirejs/*
 !/bower_components/requirejs/require.js
-
-test.txt

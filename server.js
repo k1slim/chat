@@ -21,12 +21,12 @@ io.sockets.on('connection', function(client){
         }
     };
 
-    //read("test.txt", callback);
+    read("test.txt", callback);
     client.on('message', function(message){
         try{
             client.emit('message', message);
             client.broadcast.emit('message', message);
-            //write("test.txt", message);
+            write("test.txt", message);
         } catch(e){
             console.log(e);
             client.disconnect();
