@@ -3,23 +3,24 @@ var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 
 var express = require('express');
 var app = express();
+
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    res.header("Access-Control-Allow-Headers", "Content-Type");
+    res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
+    next();
+});
+
 var server = require('http').Server(app);
 var fs = require('fs');
-var io = require('socket.io')(server);
+var io = require('socket.io')(server, {
+    origins:'chat-k1slim.rhcloud.com:* http://chat-k1slim.rhcloud.com:* http://www.chat-k1slim.rhcloud.com:*'});
+
 server.listen(server_port, server_ip_address, function(){
     console.log("Listening on " + server_ip_address + ", server_port " + server_port)
 });
 
-app.disable('x-powered-by');
-
-app.use(function (req, res, next) {
-        res.setHeader('Access-Control-Allow-Origin', "http://"+req.headers.host+':8000');
-
-        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-        res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-        next();
-    }
-);
 
 app.use('/', express.static(__dirname + '/'));
 
