@@ -1,16 +1,20 @@
-var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
-var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
+var port = process.env.PORT || 3000;
 
 var express = require('express');
 var app = express();
 
 var server = require('http').createServer(app);
 var fs = require('fs');
-var io = require('socket.io')(server, {
-    origins:'chat-k1slim.rhcloud.com:* http://chat-k1slim.rhcloud.com:* http://www.chat-k1slim.rhcloud.com:* http://localhost:* localhost:* http://127.0.0.1:* 127.0.0.1:*'});
+var io = require('socket.io')(server);
 
-server.listen(server_port, server_ip_address, function(){
-    console.log("Listening on " + server_ip_address + ", server_port " + server_port)
+server.listen(port, function () {
+    var addr = app.address();
+    console.log('   app listening on http://' + addr.address + ':' + addr.port);
+});
+
+io.configure(function () {
+    io.set("transports", ["xhr-polling"]);
+    io.set("polling duration", 20);
 });
 
 app.use('/', express.static(__dirname + '/'));
