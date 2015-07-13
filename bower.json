@@ -1,10 +1,12 @@
 {
   "name": "chat",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "homepage": "https://github.com/k1slim/chat",
   "authors": [
-    "k1slim <k1slim@yanex.ru>"
+    "k1slim@yandex.ru"
   ],
+  "description": "chat by k1slim",
+  "main": "server.js",
   "license": "MIT",
   "ignore": [
     "**/.*",
@@ -14,8 +16,10 @@
     "tests"
   ],
   "dependencies": {
+    "handlebars": "~3.0.3",
     "requirejs": "~2.1.18",
     "jquery-ui": "~1.11.4",
-    "jquery": "~2.1.4"
+    "jquery": "~2.1.4",
+    "requirejs-text": "~2.0.14"
   }
 }

@@ -1,25 +1,26 @@
 {
   "name": "chat",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "main": "server.js",
   "dependencies": {
     "express": "^4.13.1",
-    "socket.io": "1.1.0"
+    "socket.io": "^1.3.5"
   },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "postinstall": "bower install"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/k1slim/chat.git"
   },
-  "author": "",
+  "author": "k1slim@yandex.ru",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/k1slim/chat/issues"
   },
   "homepage": "https://github.com/k1slim/chat#readme",
-  "description": ""
+  "description": "chat by k1slim"
 }

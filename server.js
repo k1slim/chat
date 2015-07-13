@@ -1,10 +1,9 @@
 var port = process.env.PORT || 8080;
 
 var express = require('express'),
-    app = express();
-//var server = require('http').createServer(app);
-var fs = require('fs');
-var io = require('socket.io').listen(app.listen(port));
+    app = express(),
+    fs = require('fs'),
+    io = require('socket.io').listen(app.listen(port));
 
 app.use(express.static(__dirname + '/'));
 
