@@ -2,25 +2,24 @@
 define(['jquery', 'io', 'handlebars', 'text!../template/messageTemplate.hbs'],
     function($, io, handlebars, messageTemplate){
 
-
         class Chat {
             constructor(){
-                            //Parameters
+                //Parameters
                 this.messages = $(".messageField ul");
                 this.message = $("#textField");
                 this.time = $(".messageTime");
                 this.nick = $(".nickField");
-                this.nickPlaceholder=$("#nick");
-                this.name='';
-                this.error=$(".error");
-                this.authWindow=$(".auth");
-                this.block=$(".block");
+                this.nickPlaceholder = $("#nick");
+                this.name = '';
+                this.error = $(".error");
+                this.authWindow = $(".auth");
+                this.block = $(".block");
 
-                var self=this;
+                var self = this;
 
                 this.socket = io();
 
-                            //Listeners
+                //Listeners
                 this.socket.on('message', function(data){
                     self.msg(data);
                 });
@@ -65,7 +64,7 @@ define(['jquery', 'io', 'handlebars', 'text!../template/messageTemplate.hbs'],
 
             auth(){
                 var pattern = new RegExp(/([^a-zA-Zа-яА-Я0-9-_]+?)/);
-                this.name=this.nickPlaceholder.val();
+                this.name = this.nickPlaceholder.val();
                 if(this.name.length <= 0){
                     this.error.html("Enter nickname").show();
                     return false;
