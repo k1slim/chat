@@ -2,6 +2,7 @@
 define(['jquery', 'io', 'handlebars', 'text!../template/messageTemplate.hbs'],
     function($, io, handlebars, messageTemplate){
 
+
         class Chat {
             constructor(){
                             //Parameters
