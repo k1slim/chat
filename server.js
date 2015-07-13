@@ -7,7 +7,7 @@ var app = express();
 var server = require('http').createServer(app);
 var fs = require('fs');
 var io = require('socket.io')(server, {
-    origins:'http://chat-k1slim.rhcloud.com chat-k1slim.rhcloud.com:* http://chat-k1slim.rhcloud.com:* http://www.chat-k1slim.rhcloud.com:* http://localhost:* localhost:* http://127.0.0.1:* 127.0.0.1:*'});
+    origins:'chat-k1slim.rhcloud.com:* http://chat-k1slim.rhcloud.com:* http://www.chat-k1slim.rhcloud.com:* http://localhost:* localhost:* http://127.0.0.1:* 127.0.0.1:*'});
 
 server.listen(server_port, server_ip_address, function(){
     console.log("Listening on " + server_ip_address + ", server_port " + server_port)
