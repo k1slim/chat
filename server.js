@@ -33,8 +33,15 @@ io.sockets.on('connection', function(client){
     });
 
     client.on('nick', function(data){
-        client.broadcast.emit('systemMessage', data);
+        client.nick=data;
+        client.broadcast.emit('systemMessage',  "\"" + data + "\"" + " has joined");
     });
+
+    client.on('disconnect',function(){
+        if(client.nick){
+            client.broadcast.emit('systemMessage', "\"" + client.nick + "\"" + " has quit");
+        }
+    })
 
 });
 

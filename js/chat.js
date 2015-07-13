@@ -25,7 +25,7 @@ define(['jquery', 'io', 'handlebars', 'text!../template/messageTemplate.hbs', 't
                 });
 
                 this.socket.on('systemMessage', function(data){
-                    self.systemMsg({message: "\"" + data + "\"" + " has joined", time: Chat.getTime()});
+                    self.systemMsg({message:data, time: Chat.getTime()});
                 });
 
                 $('#sendButton').on("click", function(){
