@@ -1,14 +1,12 @@
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 8080;
 
-var express = require('express');
-var app = express();
-var server = require('http').createServer(app);
+var express = require('express'),
+    app = express();
+//var server = require('http').createServer(app);
 var fs = require('fs');
-var io = require('socket.io')(server);
+var io = require('socket.io').listen(app.listen(port));
 
-server.listen(port);
-
-app.use('/', express.static(__dirname + '/'));
+app.use(express.static(__dirname + '/'));
 
 app.get('/', function(req, res){
     res.sendFile(__dirname + '/index.html');
@@ -23,12 +21,12 @@ io.sockets.on('connection', function(client){
         }
     };
 
-    read("test.txt", callback);
+    //read("test.txt", callback);
     client.on('message', function(message){
         try{
             client.emit('message', message);
             client.broadcast.emit('message', message);
-            write("test.txt", message);
+            //write("test.txt", message);
         } catch(e){
             console.log(e);
             client.disconnect();
@@ -44,20 +42,6 @@ var write = function(file, data){
             throw err;
         }
     });
-
-    /*    fs.open(file, "a", 0644, function(err, file_handle){
-     if(!err){
-     fs.write(file_handle, JSON.stringify(data) + ',.', null, 'utf8', function(err){
-     if(err){
-     console.log(err);
-     } else{
-     fs.close(file_handle);
-     }
-     });
-     } else{
-     console.log(err);
-     }
-     });*/
 };
 
 var read = function(file, callback){
@@ -67,20 +51,5 @@ var read = function(file, callback){
         }
         callback(data);
     });
-
-    /*fs.open(file, "r", 0644, function(err, file_handle){
-     if(!err){
-     fs.read(file_handle, 10000, null, 'utf8', function(err, data){
-     if(!err){
-     callback(data);
-     fs.close(file_handle);
-     } else{
-     console.log(err);
-     }
-     });
-     } else{
-     console.log(err);
-     }
-     });*/
 };
 
