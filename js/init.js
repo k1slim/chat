@@ -5,7 +5,6 @@ require.config({
         'io': 'http://chat-k1slim.rhcloud.com/socket.io/socket.io',
         'handlebars': '../bower_components/handlebars/handlebars.min',
         'text': '../bower_components/requirejs-text/text',
-
         'chat': 'chat',
         'interactive': 'interactive'
 
