@@ -1,6 +1,6 @@
 "use strict";
-define(['jquery', 'io', 'handlebars', 'text!../template/messageTemplate.hbs'],
-    function($, io, handlebars, messageTemplate){
+define(['jquery', 'io', 'handlebars', 'text!../template/messageTemplate.hbs', 'text!../template/systemMessageTemplate.hbs'],
+    function($, io, handlebars, messageTemplate, systemMessageTemplate){
 
         class Chat {
             constructor(){
@@ -22,6 +22,10 @@ define(['jquery', 'io', 'handlebars', 'text!../template/messageTemplate.hbs'],
                 //Listeners
                 this.socket.on('message', function(data){
                     self.msg(data);
+                });
+
+                this.socket.on('systemMessage', function(data){
+                    self.systemMsg({message: "\"" + data + "\"" + " has joined", time: Chat.getTime()});
                 });
 
                 $('#sendButton').on("click", function(){
@@ -58,6 +62,12 @@ define(['jquery', 'io', 'handlebars', 'text!../template/messageTemplate.hbs'],
                 $(".messageField").scrollTop(this.messages.height());
             }
 
+            systemMsg(data){
+                var template = handlebars.compile(systemMessageTemplate);
+                this.messages.append(template(data));
+                $(".messageField").scrollTop(this.messages.height());
+            }
+
             static getTime(){
                 return new Date().toLocaleTimeString();
             }
@@ -76,6 +86,7 @@ define(['jquery', 'io', 'handlebars', 'text!../template/messageTemplate.hbs'],
                 this.nick.html(this.name);
                 this.authWindow.fadeOut();
                 this.block.fadeOut();
+                this.socket.emit('nick', this.name);
             }
         }
 

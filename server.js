@@ -32,8 +32,12 @@ io.sockets.on('connection', function(client){
         }
     });
 
+    client.on('nick', function(data){
+        client.broadcast.emit('systemMessage', data);
+    });
 
 });
+
 
 var write = function(file, data){
     fs.appendFile(file, JSON.stringify(data) + ',.', 'utf8', function(err){
