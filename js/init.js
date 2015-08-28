@@ -5,6 +5,8 @@ require.config({
         'io': /*http://chat-k1slim.rhcloud.com/socket.io/socket.io'*/'../socket.io/socket.io',
         'handlebars': '../bower_components/handlebars/handlebars.min',
         'text': '../bower_components/requirejs-text/text',
+        'titleNotifier':'../bower_components/TitleNotifier.js/title_notifier',
+
         'chat': 'chat',
         'interactive': 'interactive'
 
@@ -12,6 +14,9 @@ require.config({
     shim: {
         'io': {
             exports: 'io'
+        },
+        'titleNotifier':{
+            exports:'titleNotifier'
         }
     }
 });

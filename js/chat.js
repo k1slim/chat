@@ -1,5 +1,5 @@
 "use strict";
-define(['jquery', 'io', 'handlebars', 'text!../template/messageTemplate.hbs', 'text!../template/systemMessageTemplate.hbs'],
+define(['jquery', 'io', 'handlebars', 'text!../template/messageTemplate.hbs', 'text!../template/systemMessageTemplate.hbs', 'titleNotifier'],
     function($, io, handlebars, messageTemplate, systemMessageTemplate){
 
         class Chat {
@@ -28,32 +28,44 @@ define(['jquery', 'io', 'handlebars', 'text!../template/messageTemplate.hbs', 't
                     self.systemMsg({message:data, time: Chat.getTime()});
                 });
 
-                $('#sendButton').on("click", function(){
+                $('#sendButton').click(function(){
                     self.send();
                 });
 
-                $('#authButton').on("click", function(){
+                $('#authButton').click(function(){
                     self.auth();
+                });
+
+                this.messages.click(function(e){
+                    if($(e.target).hasClass('messageNickSpan') && self.message.val()==""){
+                        self.message.val('<b>' + $(e.target).text().trim() + '</b>, ');
+                    }
                 });
 
                 this.message.keypress(function(e){
                     if(e.which === 13){
                         self.send();
                     }
-                    /*if(e.ctrlKey){
+                    if(e.ctrlKey){
                      var text = self.message.val() + '<br>';
                      self.message.val(text);
-                     }*/
+                     }
                 });
             }
 
             send(){
-                var text = this.message.val().replace(',.', ', .');
+                var text = Chat.msgParsing(this.message.val());
                 if(text.length <= 0){
                     return false;
                 }
                 this.message.val("");
                 this.socket.emit("message", {message: text, name: this.name, time: Chat.getTime()});
+            }
+
+            static msgParsing(text){
+                var url = /([-a-zA-Z0-9@:%_\+.~#?&\/\/=]{2,256}\.[a-z]{2,4}\b(\/?[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*)?)/gi,
+                    res = text.replace(',.', ', .');
+                return(res.replace(url, '<a href="$1" target="_blank">$1</a>'));
             }
 
             msg(data){
@@ -74,7 +86,7 @@ define(['jquery', 'io', 'handlebars', 'text!../template/messageTemplate.hbs', 't
 
             auth(){
                 var pattern = new RegExp(/([^a-zA-Zа-яА-Я0-9-_]+?)/);
-                this.name = this.nickPlaceholder.val();
+                this.name = this.nickPlaceholder.val().trim();
                 if(this.name.length <= 0){
                     this.error.html("Enter nickname").show();
                     return false;

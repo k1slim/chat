@@ -50,6 +50,9 @@
   border-right: 1px solid #cfdae1;
   font-weight: bold;
 }
+.messageField .message .messageNickSpan:hover {
+  cursor: pointer;
+}
 .messageField .message .messageText {
   display: table;
 }
