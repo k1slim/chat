@@ -69,9 +69,11 @@ define(['jquery', 'io', 'handlebars', 'text!../template/messageTemplate.hbs', 't
             }
 
             msg(data){
-                var template = handlebars.compile(messageTemplate);
+                var template = handlebars.compile(messageTemplate),
+                    sound=$('#audio')[0];
                 this.messages.append(template(data));
                 $(".messageField").scrollTop(this.messages.height());
+                sound.play();
             }
 
             systemMsg(data){
@@ -85,7 +87,7 @@ define(['jquery', 'io', 'handlebars', 'text!../template/messageTemplate.hbs', 't
             }
 
             auth(){
-                var pattern = new RegExp(/([^a-zA-Zа-яА-Я0-9-_]+?)/);
+                var pattern = /([^a-zA-Zа-яА-Я0-9-_]+?)/;
                 this.name = this.nickPlaceholder.val().trim();
                 if(this.name.length <= 0){
                     this.error.html("Enter nickname").show();
