@@ -1,4 +1,9 @@
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 8080,
+    dbUrl =
+    process.env.MONGOLAB_URI ||
+    process.env.MONGOHQ_URL ||
+    'mongodb://localhost/test';
+
 
 var express = require('express'),
     app = express(),
@@ -8,7 +13,7 @@ var express = require('express'),
 
             //MongoDB
 
-mongoose.connect('mongodb://localhost/test');
+mongoose.connect(dbUrl);
 var db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'Connection error:'));
