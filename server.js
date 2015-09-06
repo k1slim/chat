@@ -2,8 +2,21 @@ var port = process.env.PORT || 8080;
 
 var express = require('express'),
     app = express(),
-    fs = require('fs'),
-    io = require('socket.io').listen(app.listen(port));
+    io = require('socket.io').listen(app.listen(port)),
+    mongoose = require('mongoose'),
+    Messages = require('./js/models/messages');
+
+            //MongoDB
+
+mongoose.connect('mongodb://localhost/test');
+var db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'Connection error:'));
+db.once('open', function () {
+    console.log("Connected to DB!");
+});
+
+            //Routes
 
 app.use(express.static(__dirname + '/'));
 
@@ -11,21 +24,48 @@ app.get('/', function(req, res){
     res.sendFile(__dirname + '/index.html');
 });
 
+app.get('/api/delete', function(req, res) {
+    return Messages.remove(function(err) {
+        if(!err){
+            return res.send('Database removed!');
+        }
+        else{
+            res.statusCode = 500;
+            console.log('Internal error(%d): %s',res.statusCode,err.message);
+            return res.send({ error: 'Server error' });
+        }
+    });
+});
+
 io.sockets.on('connection', function(client){
 
-    var callback = function(data){
-        var res = data.split(',.');
-        for(var i = 0; i < res.length - 1; i++){
-            client.emit('message', JSON.parse(res[i]));
+    var callback = function(err, data){
+        if(err){
+            throw err;
+        }
+        else{
+            for(var i = 0; i < data.length; i++){
+                client.emit('message', data[i]);
+            }
         }
     };
 
-    read("test.txt", callback);
+    Messages.find()
+        .select('-_id message name time')
+        .exec(callback);
+
     client.on('message', function(message){
         try{
             client.emit('message', message);
             client.broadcast.emit('message', message);
-            write("test.txt", message);
+
+            new Messages(message)
+                .save(function (err) {
+                    if(err){
+                        throw err;
+                    }
+                });
+
         } catch(e){
             console.log(e);
             client.disconnect();
@@ -44,22 +84,3 @@ io.sockets.on('connection', function(client){
     })
 
 });
-
-
-var write = function(file, data){
-    fs.appendFile(file, JSON.stringify(data) + ',.', 'utf8', function(err){
-        if(err){
-            throw err;
-        }
-    });
-};
-
-var read = function(file, callback){
-    fs.readFile(file, 'utf8', function(err, data){
-        if(err){
-            throw err;
-        }
-        callback(data);
-    });
-};
-

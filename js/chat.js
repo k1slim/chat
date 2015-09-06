@@ -36,6 +36,12 @@ define(['jquery', 'io', 'handlebars', 'text!../template/messageTemplate.hbs', 't
                     self.auth();
                 });
 
+                this.nickPlaceholder.keypress(function(e){
+                    if(e.which === 13){
+                        self.auth();
+                    }
+                });
+
                 this.messages.click(function(e){
                     if($(e.target).hasClass('messageNickSpan') && self.message.val()==""){
                         self.message.val('<b>' + $(e.target).text().trim() + '</b>, ');
@@ -50,6 +56,10 @@ define(['jquery', 'io', 'handlebars', 'text!../template/messageTemplate.hbs', 't
                      var text = self.message.val() + '<br>';
                      self.message.val(text);
                      }
+                });
+
+                this.message.focus(function(){
+                    titlenotifier.reset();
                 });
             }
 
@@ -74,6 +84,9 @@ define(['jquery', 'io', 'handlebars', 'text!../template/messageTemplate.hbs', 't
                 this.messages.append(template(data));
                 $(".messageField").scrollTop(this.messages.height());
                 sound.play();
+                if(!this.message.is(':focus')){
+                    titlenotifier.add();
+                }
             }
 
             systemMsg(data){
