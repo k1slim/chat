@@ -6,7 +6,7 @@ require.config({
         'handlebars': '../bower_components/handlebars/handlebars.min',
         'helpers': 'helpers',
         'text': '../bower_components/requirejs-text/text',
-        'titleNotifier': '../bower_components/TitleNotifier.js/title_notifier',
+        'titleNotifier': '../bower_components/TitleNotifier.js/dist/title_notifier.min',
 
         'chat': 'chat',
         'room': 'room',

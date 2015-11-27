@@ -16,8 +16,9 @@
         console.log("Connected to DB!");
     });
 
-    function loadData(model) {
-        return model.find()
+    function loadData(model, criteria) {
+        criteria=criteria || "";
+        return model.find(criteria)
             .select('-_id -__v');
     }
 

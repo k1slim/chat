@@ -1,3 +1,4 @@
+"use strict";
 (function () {
 
     var port = process.env.PORT || 8080,
@@ -19,13 +20,13 @@
 
     app.get('/api/delete', function (req, res) {
         db.removeData(Messages)
-            .then(function () {
-                return res.send('Database removed!');
-            }).catch(function (err) {
+            .then(() => {
+                res.send('Database removed!');
+            }).then(null, err => {
                 res.statusCode = 500;
                 console.error('Internal error(%d): %s', res.statusCode, err.message);
                 return res.send({error: 'Server error'});
-            })
+            });
     });
 
     //Sockets
@@ -34,29 +35,21 @@
 
         setRoom(client);
 
-        db.loadData(Messages)
-            .then(function (data) {
-                for (var i = 0, n = data.length; i < n; i++) {
-                    client.emit('message', data[i]);
-                }
-            }).catch(function (err) {
-                console.error(err);
-            });
+        loadMessagesByRoom(client);
 
         db.loadData(Rooms)
-            .then(function (data) {
+            .then(data => {
                 sendRoomsList(client, data);
-            }).catch(function (err) {
+            }).then(null, err => {
                 console.error(err);
             });
-
 
         client.on('message', function (message) {
             try {
                 client.emit('message', message);
                 client.broadcast.to(client.room).emit('message', message);
 
-                db.saveData(Messages, message);
+                db.saveData(Messages, {msg : message, room :client.room});
             }
             catch (err) {
                 console.error(err);
@@ -72,23 +65,24 @@
             client.to(client.room).broadcast.emit('systemMessage', "\"" + client.nick + "\"" + " has changed the room");
             setRoom(client, data);
             client.to(client.room).broadcast.emit('systemMessage', "\"" + client.nick + "\"" + " has joined to the room");
+            loadMessagesByRoom(client);
         });
 
         client.on('createRoom', function (data) {
             db.loadOne(Rooms, {name: data})
-                .then(function (result) {
+                .then(result => {
                     if (result === null) {
                         return db.saveData(Rooms, {name: data});
                     }
                     else {
                         throw Error('Room not create');
                     }
-                }).then(function () {
+                }).then(() => {
                     return db.loadData(Rooms);
-                }).then(function (result) {
+                }).then(result => {
                     sendRoomsList(client, result);
                     broadcastRoomsList(client, result);
-                }).catch(function (err) {
+                }).then(null, err => {
                     console.error(err);
                 });
         });
@@ -110,12 +104,24 @@
         socket.join(name);
     }
 
-    function sendRoomsList(client, data) {
-        client.emit('getRooms', {data: data, activeRoom: client.room});
+    function sendRoomsList(socket, data) {
+        socket.emit('getRooms', {data: data, activeRoom: socket.room});
     }
 
-    function broadcastRoomsList(client, data) {
-        client.broadcast.emit('getRooms', {data: data});
+    function broadcastRoomsList(socket, data) {
+        socket.broadcast.emit('getRooms', {data: data});
+    }
+
+    function loadMessagesByRoom(socket, room){
+        room = room || socket.room;
+        db.loadData(Messages, {room : room})
+            .then(data => {
+                for (let i = 0, n = data.length; i < n; i++) {
+                    socket.emit('message', data[i].msg);
+                }
+            }).then(null, err => {
+                console.error(err);
+            });
     }
 
 }());

@@ -7,6 +7,8 @@ define(['jquery', 'io', 'handlebars', 'helpers','text!../template/roomsTemplate.
                 this.rooms = $(".roomContent");
                 this.room = '';
 
+                this.messages = $(".messageField ul");
+
                 var self = this;
 
                 this.socket = io();
@@ -37,6 +39,8 @@ define(['jquery', 'io', 'handlebars', 'helpers','text!../template/roomsTemplate.
                 $(".active").removeClass("active");
                 $("[data-name=" + name.replace(' ','_') + "]").addClass("active");
                 this.socket.emit('joinRoom', name);
+                this.clearMessageArea();
+                titlenotifier.reset();
             }
 
             createRoom() {
@@ -47,6 +51,10 @@ define(['jquery', 'io', 'handlebars', 'helpers','text!../template/roomsTemplate.
             parseRoomList(data) {
                 var template = handlebars.compile(roomsTemplate);
                 this.rooms.html(template({items: data}));
+            }
+
+            clearMessageArea(){
+                this.messages.empty();
             }
 
         }
