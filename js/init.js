@@ -10,6 +10,7 @@ require.config({
 
         'chat': 'chat',
         'room': 'room',
+        'modalWindow': 'modalWindow',
         'interactive': 'interactive'
 
     },

@@ -1,6 +1,6 @@
 "use strict";
-define(['jquery', 'io', 'handlebars', 'helpers','text!../template/roomsTemplate.hbs'],
-    function ($, io, handlebars, helpers, roomsTemplate) {
+define(['jquery', 'io', 'handlebars', 'helpers', 'modalWindow', 'text!../template/roomsTemplate.hbs'],
+    function ($, io, handlebars, helpers, modalWindow, roomsTemplate) {
 
         class Room {
             constructor() {
@@ -21,7 +21,7 @@ define(['jquery', 'io', 'handlebars', 'helpers','text!../template/roomsTemplate.
                 });
 
                 $('#createRoomButton').click(function () {
-                    self.createRoom();
+                    self.createRoomDialog();
                 });
 
                 this.rooms.click(function (e) {
@@ -43,9 +43,45 @@ define(['jquery', 'io', 'handlebars', 'helpers','text!../template/roomsTemplate.
                 titlenotifier.reset();
             }
 
-            createRoom() {
-                var r = prompt('enter room');
-                this.socket.emit('createRoom', r);
+            createRoomDialog() {
+                var self=this;
+
+                modalWindow.createModalWindow({'placeholder':'Room name','cancel':true});
+
+                modalWindow.getOkButton().click(function () {
+                    self.createRoom();
+                });
+
+                modalWindow.getInputField().keypress(function (e) {
+                    if (e.which === 13) {
+                        self.createRoom();
+                    }
+                });
+
+                modalWindow.getCancelButton().click(function() {
+                    modalWindow.deleteModalWindow();
+                });
+            }
+
+            createRoom(){
+                var pattern = /([^a-zA-Zа-яА-Я0-9-+*_ !?#№:;,.]+?)/,
+                    name = modalWindow.getData();
+
+                if (name.length <= 0) {
+                    modalWindow.throwError("Enter room name");
+                    return false;
+                }
+                if (name.length > 20) {
+                    modalWindow.throwError("Very long nickname");
+                    return false;
+                }
+                if (pattern.test(name)) {
+                    modalWindow.throwError("Incorrect symbol '" + pattern.exec(name)[1] + "' ");
+                    return false;
+                }
+
+                modalWindow.deleteModalWindow();
+                this.socket.emit('createRoom', name);
             }
 
             parseRoomList(data) {

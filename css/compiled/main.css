@@ -123,9 +123,10 @@
   width: 15%;
 }
 #sendButton,
-#authButton,
+#modalOKButton,
 #joinButton,
-#createRoomButton {
+#createRoomButton,
+#modalCancelButton {
   border: 1px solid #cfdae1;
   border-radius: 5px;
   height: 30px;
@@ -133,27 +134,30 @@
   box-sizing: border-box;
 }
 #sendButton:focus,
-#authButton:focus,
+#modalOKButton:focus,
 #joinButton:focus,
-#createRoomButton:focus {
+#createRoomButton:focus,
+#modalCancelButton:focus {
   border-radius: 5px;
   border: 2px solid #8cb4ee;
   outline: none;
 }
 #sendButton:hover,
-#authButton:hover,
+#modalOKButton:hover,
 #joinButton:hover,
-#createRoomButton:hover {
+#createRoomButton:hover,
+#modalCancelButton:hover {
   cursor: pointer;
 }
 #sendButton:active,
-#authButton:active,
+#modalOKButton:active,
 #joinButton:active,
-#createRoomButton:active {
+#createRoomButton:active,
+#modalCancelButton:active {
   background: white;
 }
 #textField,
-#nick {
+#inputField {
   border: 1px solid #cfdae1;
   border-radius: 5px;
   width: 100%;
@@ -162,7 +166,7 @@
   padding: 0 10px;
 }
 #textField:focus,
-#nick:focus {
+#inputField:focus {
   border-radius: 5px;
   border: 2px solid #8cb4ee;
   outline: none;
@@ -220,28 +224,29 @@
   height: 53px;
   padding: 10px;
 }
-.auth {
-  z-index: 10;
+.modalWindow {
   position: fixed;
   top: 20%;
   left: 50%;
-  margin-left: -125px;
   width: 250px;
+  margin-left: -125px;
   border: 2px solid #cfdae1;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  background: #e4eaee;
   padding: 5px 5px;
+  background: #e4eaee;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  z-index: 10;
+  opacity: 1;
 }
-.auth .error {
+.modalWindow .errorField {
+  position: relative;
   display: none;
+  margin: 10px;
   border: 1px solid red;
   border-radius: 5px;
   padding: 5px;
-  margin: 10px;
-  position: relative;
 }
-.auth .error:before,
-.auth .error:after {
+.modalWindow .errorField:before,
+.modalWindow .errorField:after {
   content: '';
   position: absolute;
   left: 15px;
@@ -249,28 +254,31 @@
   border: 7px solid transparent;
   border-top: 7px solid red;
 }
-.auth .error:after {
-  border-top: 7px solid #e4eaee;
+.modalWindow .errorField:after {
   bottom: -14px;
+  border-top: 7px solid #e4eaee;
 }
-.auth .nameField {
+.modalWindow .dataField {
   display: table;
   width: 100%;
 }
-.auth .nameField div {
+.modalWindow .dataField div {
   display: table-cell;
   padding: 10px;
 }
-.auth .nameField .okButtonField {
+.modalWindow .dataField .buttonField {
   width: 22%;
+}
+.modalWindow .dataField .buttonField #modalCancelButton {
+  margin-top: 15px;
 }
 .block {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 9;
   width: 100%;
   height: 100%;
-  opacity: 0.35;
   background: black;
+  z-index: 9;
+  opacity: 0.35;
 }

@@ -29,10 +29,21 @@
             });
     });
 
+    db.loadOne(Rooms, {name: 'Lobby'})
+        .then(result => {
+            if (result === null) {
+                return db.saveData(Rooms, {name: "Lobby"});
+            }
+            else {
+                throw Error('Room already exists');
+            }
+        }).then(null, err => {
+            console.error(err);
+        });
+
     //Sockets
 
     io.on('connection', function (client) {
-
         setRoom(client);
 
         loadMessagesByRoom(client);
@@ -49,7 +60,7 @@
                 client.emit('message', message);
                 client.broadcast.to(client.room).emit('message', message);
 
-                db.saveData(Messages, {msg : message, room :client.room});
+                db.saveData(Messages, {msg: message, room: client.room});
             }
             catch (err) {
                 console.error(err);
@@ -75,7 +86,7 @@
                         return db.saveData(Rooms, {name: data});
                     }
                     else {
-                        throw Error('Room not create');
+                        throw Error('Room already exists');
                     }
                 }).then(() => {
                     return db.loadData(Rooms);
@@ -112,9 +123,9 @@
         socket.broadcast.emit('getRooms', {data: data});
     }
 
-    function loadMessagesByRoom(socket, room){
+    function loadMessagesByRoom(socket, room) {
         room = room || socket.room;
-        db.loadData(Messages, {room : room})
+        db.loadData(Messages, {room: room})
             .then(data => {
                 for (let i = 0, n = data.length; i < n; i++) {
                     socket.emit('message', data[i].msg);

@@ -1,12 +1,13 @@
 "use strict";
-define(['jquery', 'io', 'handlebars', 'helpers', 'text!../template/messageTemplate.hbs', 'text!../template/systemMessageTemplate.hbs', 'titleNotifier'],
-    function ($, io, handlebars, helpers, messageTemplate, systemMessageTemplate) {
+define(['jquery', 'io', 'handlebars', 'helpers', 'modalWindow', 'text!../template/messageTemplate.hbs', 'text!../template/systemMessageTemplate.hbs', 'titleNotifier'],
+    function ($, io, handlebars, helpers, modalWindow, messageTemplate, systemMessageTemplate) {
 
         class Chat {
             constructor() {
                 //Parameters
                 this.messages = $(".messageField ul");
                 this.message = $("#textField");
+
                 this.authNick = $("#nick");
                 this.nickPlaceholder = $(".nickField");
                 this.error = $(".error");
@@ -28,18 +29,20 @@ define(['jquery', 'io', 'handlebars', 'helpers', 'text!../template/messageTempla
                     self.systemMsg({message: data, time: Chat.getTime()});
                 });
 
-                $('#sendButton').click(function () {
-                    self.send();
-                });
+                modalWindow.createModalWindow({'placeholder': 'Nickname'});
 
-                $('#authButton').click(function () {
+                modalWindow.getOkButton().click(function () {
                     self.auth();
                 });
 
-                this.authNick.keypress(function (e) {
+                modalWindow.getInputField().keypress(function (e) {
                     if (e.which === 13) {
                         self.auth();
                     }
+                });
+
+                $('#sendButton').click(function () {
+                    self.send();
                 });
 
                 this.messages.click(function (e) {
@@ -100,22 +103,22 @@ define(['jquery', 'io', 'handlebars', 'helpers', 'text!../template/messageTempla
 
             auth() {
                 var pattern = /([^a-zA-Zа-яА-Я0-9-_]+?)/;
-                this.name = this.authNick.val().trim();
+                this.name = modalWindow.getData();
+
                 if (this.name.length <= 0) {
-                    this.error.html("Enter nickname").show();
+                    modalWindow.throwError("Enter nickname");
                     return false;
                 }
                 if (this.name.length > 20) {
-                    this.error.html("Very long nickname").show();
+                    modalWindow.throwError("Very long nickname");
                     return false;
                 }
                 if (pattern.test(this.name)) {
-                    this.error.html("Incorrect symbol '" + pattern.exec(this.name)[1] + "' ").show();
+                    modalWindow.throwError("Incorrect symbol '" + pattern.exec(this.name)[1] + "' ");
                     return false;
                 }
                 this.nickPlaceholder.html(this.name);
-                this.authWindow.fadeOut();
-                this.block.fadeOut();
+                modalWindow.deleteModalWindow();
                 this.socket.emit('nick', this.name);
             }
         }
