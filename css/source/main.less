@@ -14,7 +14,7 @@
     border-bottom:1px solid @borderCol;
     display:table;
     width:100%;
-    height:42px;
+    height:40px;
 
     div{
         display: table-cell;
@@ -24,7 +24,50 @@
     .nickField{
         text-align:right;
     }
+
+    .roomsButton{
+        width: 80px;
+
+        span{
+            border-left: 2px solid @borderCol;
+            padding: 5px 10px;
+
+            &:after,&:before{
+                content: '';
+                position: absolute;
+                top: 17px;
+                border: 6px solid transparent;
+            }
+
+            &:after{
+
+                right: 5px;
+                border-left: 8px solid @arrowCol;
+            }
+
+            &:before{
+                display: none;
+                right: 11px;
+                border-right: 8px solid @arrowCol;
+            }
+
+            &:hover{
+                cursor: pointer;
+            }
+        }
+
+    }
 }
+
+.closeArrow#roomsButton:after{
+    display: none;
+}
+
+.openArrow#roomsButton:before{
+    display: block;
+}
+
+
 
 
 .messageField{
@@ -40,6 +83,8 @@
         -webkit-margin-before:0;
         -webkit-margin-after:0;
         -webkit-padding-start:0;
+        margin: 0;
+        padding: 0;
     }
 
     .message{
@@ -109,7 +154,7 @@
     }
 }
 
-#sendButton,#authButton{
+#sendButton,#modalOKButton,#joinButton,#createRoomButton,#modalCancelButton{
     border: 1px solid @borderCol;
     border-radius:5px;
     height:30px;
@@ -131,7 +176,7 @@
     }
 }
 
-#textField,#nick{
+#textField,#inputField{
     border: 1px solid @borderCol;
     border-radius:5px;
     width:100%;
@@ -146,25 +191,88 @@
     }
 }
 
-.auth{
-    z-index:10;
+.room{
+    display: none;
+    position: absolute;
+    top:0;
+    left:100%;
+    height: ~"calc(100% - 4px)";
+    width: 180px;
+    border-top: 2px solid @borderCol;
+    border-bottom: 2px solid @borderCol;
+    border-right: 2px solid @borderCol;
+    background: @background;
+
+    .roomHeader{
+        box-sizing: border-box;
+        background: #e4eaee;
+        border-bottom: 1px solid #cfdae1;
+        width: 100%;
+        height: 41px;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .roomContent{
+        height:25em;
+        max-width: 180px;
+        min-width: 180px;
+        //height: ~"calc(100% - 43px)";
+        overflow: auto;
+
+        ul{
+            list-style: none;
+            -webkit-margin-before: 0;
+            -webkit-margin-after: 0;
+            -webkit-padding-start: 0;
+
+            li{
+                padding: 5px 15px;
+                border-bottom: 1px solid @background;
+            }
+
+            li:hover{
+                box-sizing:content-box;
+                cursor: pointer;
+                border-bottom: 1px solid @borderCol;
+                background: white;
+            }
+
+            .active{
+                box-sizing:content-box;
+                border-bottom: 1px solid @borderCol;
+                background: white;
+            }
+        }
+    }
+
+    .roomFooter{
+        border-top:1px solid @borderCol;
+        height:53px;
+        padding: 10px;
+    }
+}
+
+.modalWindow{
     position:fixed;
     top:20%;
     left:50%;
-    margin-left:-125px;
     width:250px;
+    margin-left:-125px;
     border:2px solid @borderCol;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    background:@background;
     padding:5px 5px;
+    background:@background;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index:10;
+    opacity: 1;
 
-    .error{
+    .errorField{
+        position:relative;
         display:none;
+        margin:10px;
         border:1px solid red;
         border-radius:5px;
         padding:5px;
-        margin:10px;
-        position:relative;
 
         &:before, &:after {
             content: '';
@@ -175,12 +283,12 @@
             border-top: 7px solid red;
         }
         &:after {
-            border-top: 7px solid @background;
             bottom: -14px;
+            border-top: 7px solid @background;
         }
     }
 
-    .nameField{
+    .dataField{
         display:table;
         width:100%;
 
@@ -189,8 +297,12 @@
             padding:10px;
         }
 
-        .okButtonField{
+        .buttonField{
             width:22%;
+
+            #modalCancelButton{
+                margin-top: 15px;
+            }
         }
     }
 }
@@ -199,9 +311,9 @@
     position:fixed;
     top:0;
     left:0;
-    z-index:9;
     width:100%;
     height:100%;
-    opacity:0.35;
     background:black;
+    z-index:9;
+    opacity:0.35;
 }

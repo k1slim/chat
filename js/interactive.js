@@ -1,16 +1,28 @@
 'use strict';
 define(['jquery', 'jquery-ui'],
-    function($){
+    function ($) {
 
         class Interactive {
-            constructor(){
+            constructor() {
+                var self = this;
                 this.resizableElements = $(".content");
+                this.roomsButton = $("#roomsButton");
+
                 Interactive.resize(this.resizableElements);
+
+                this.roomsButton.click(function () {
+                    $(".room").toggle("slide", {direction: "left"}, 500, function () {
+                        self.roomsButton
+                            .toggleClass('closeArrow')
+                            .toggleClass('openArrow');
+                    });
+                });
+
             }
 
-            static resize(element){
+            static resize(element) {
                 $(element).resizable({
-                    alsoResize: ".messageField",
+                    alsoResize: ".roomContent, .messageField",
                     minHeight: "200",
                     minWidth: "200"
                 });

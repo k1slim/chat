@@ -1,0 +1,9 @@
+<ul>
+    {{#each items}}
+        {{#ifCond name 'Lobby'}}
+            <li class="active" data-name="{{replace name}}">{{name}}</li>
+        {{else}}
+            <li data-name="{{replace name}}">{{name}}</li>
+        {{/ifCond}}
+    {{/each}}
+</ul>
