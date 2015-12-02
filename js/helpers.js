@@ -1,3 +1,4 @@
+"use strict";
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         define(['handlebars'], factory);
@@ -15,9 +16,17 @@
     });
 
     Handlebars.registerHelper('replace', function (string) {
-        var newString = string.replace(' ','_');
+        var newString = getId(string)/*string.replace(/ /g,'_')*/;
         return new Handlebars.SafeString(newString);
     });
+
+    function getId(string){
+        var res='';
+        for(let i=0,n=string.length;i<n;i++){
+            res+=string.charCodeAt(i);
+        }
+        return(res);
+    }
 
     return Handlebars;
 }));

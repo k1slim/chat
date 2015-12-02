@@ -107,7 +107,7 @@
     });
 
     function setRoom(socket, name) {
-        name = name || 'Lobby';
+        name = name || "Lobby";
         if (socket.room) {
             socket.leave(socket.room);
         }
@@ -123,16 +123,16 @@
         socket.broadcast.emit('getRooms', {data: data});
     }
 
-    function loadMessagesByRoom(socket, room) {
+    function loadMessagesByRoom(socket, room ) {
         room = room || socket.room;
         db.loadData(Messages, {room: room})
             .then(data => {
-                for (let i = 0, n = data.length; i < n; i++) {
-                    socket.emit('message', data[i].msg);
+                for(let part of data){
+                    socket.emit('message', part.msg);
                 }
             }).then(null, err => {
-                console.error(err);
-            });
+            console.error(err);
+        });
     }
 
 }());

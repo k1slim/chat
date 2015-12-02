@@ -15,7 +15,7 @@ define(['jquery', 'io', 'handlebars', 'helpers', 'modalWindow', 'text!../templat
 
                 this.socket.on('getRooms', function (data) {
                     self.parseRoomList(data.data);
-                    if(data.activeRoom){
+                    if (data.activeRoom) {
                         this.room = data.activeRoom;
                     }
                 });
@@ -37,16 +37,24 @@ define(['jquery', 'io', 'handlebars', 'helpers', 'modalWindow', 'text!../templat
                 }
                 this.room = name;
                 $(".active").removeClass("active");
-                $("[data-name=" + name.replace(' ','_') + "]").addClass("active");
+                $("[data-name=" + Room.getId(name) + "]").addClass("active");
                 this.socket.emit('joinRoom', name);
                 this.clearMessageArea();
                 titlenotifier.reset();
             }
 
-            createRoomDialog() {
-                var self=this;
+            static getId(string) {
+                var res = '';
+                for (let i = 0, n = string.length; i < n; i++) {
+                    res += string.charCodeAt(i);
+                }
+                return (res);
+            }
 
-                modalWindow.createModalWindow({'placeholder':'Room name','cancel':true});
+            createRoomDialog() {
+                var self = this;
+
+                modalWindow.createModalWindow({'placeholder': 'Room name', 'cancel': true});
 
                 modalWindow.getOkButton().click(function () {
                     self.createRoom();
@@ -58,12 +66,12 @@ define(['jquery', 'io', 'handlebars', 'helpers', 'modalWindow', 'text!../templat
                     }
                 });
 
-                modalWindow.getCancelButton().click(function() {
+                modalWindow.getCancelButton().click(function () {
                     modalWindow.deleteModalWindow();
                 });
             }
 
-            createRoom(){
+            createRoom() {
                 var pattern = /([^a-zA-Zа-яА-Я0-9-+*_ !?#№:;,.]+?)/,
                     name = modalWindow.getData();
 
@@ -89,7 +97,7 @@ define(['jquery', 'io', 'handlebars', 'helpers', 'modalWindow', 'text!../templat
                 this.rooms.html(template({items: data}));
             }
 
-            clearMessageArea(){
+            clearMessageArea() {
                 this.messages.empty();
             }
 
