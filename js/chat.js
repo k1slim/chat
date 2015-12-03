@@ -1,6 +1,6 @@
 "use strict";
-define(['jquery', 'io', 'handlebars', 'helpers', 'modalWindow','auth', 'text!../template/messageTemplate.hbs', 'text!../template/systemMessageTemplate.hbs', 'titleNotifier'],
-    function ($, io, handlebars, helpers, modalWindow, auth, messageTemplate, systemMessageTemplate) {
+define(['jquery', 'io', 'handlebars',  'modalWindow', 'auth', 'text!../template/messageTemplate.hbs', 'text!../template/systemMessageTemplate.hbs', 'titleNotifier'],
+    function ($, io, handlebars, modalWindow, auth, messageTemplate, systemMessageTemplate) {
 
         class Chat {
             constructor() {

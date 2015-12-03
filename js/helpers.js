@@ -20,12 +20,12 @@
         return new Handlebars.SafeString(newString);
     });
 
-    function getId(string){
-        var res='';
-        for(let i=0,n=string.length;i<n;i++){
-            res+=string.charCodeAt(i);
+    function getId(string) {
+        var res = '';
+        for (let i = 0, n = string.length; i < n; i++) {
+            res += string.charCodeAt(i);
         }
-        return(res);
+        return (res);
     }
 
     return Handlebars;

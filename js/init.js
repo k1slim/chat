@@ -10,7 +10,7 @@ require.config({
 
         'chat': 'chat',
         'room': 'room',
-        'auth' : 'auth',
+        'auth': 'auth',
         'modalWindow': 'modalWindow',
         'interactive': 'interactive'
 
@@ -25,6 +25,6 @@ require.config({
     }
 });
 
-require(['interactive', 'chat', 'room','auth'], function (interactive, chat, room, auth) {
+require(['interactive', 'chat', 'room', 'auth'], function (interactive, chat, room, auth) {
 
 });

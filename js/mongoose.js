@@ -17,7 +17,7 @@
     });
 
     function loadData(model, criteria) {
-        criteria=criteria || "";
+        criteria = criteria || "";
         return model.find(criteria)
             .select('-_id -__v');
     }

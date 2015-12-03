@@ -5,12 +5,12 @@ define(['jquery', 'handlebars', 'text!../template/modalWindowTemplate.hbs'],
 
             constructor() {
                 //Parameters
-                this.block='';
-                this.modalWindow='';
+                this.block = '';
+                this.modalWindow = '';
                 this.inputField = '';
                 this.errorPlaceholder = '';
-                this.okButton='';
-                this.cancelButton='';
+                this.okButton = '';
+                this.cancelButton = '';
             }
 
             /**
@@ -20,36 +20,36 @@ define(['jquery', 'handlebars', 'text!../template/modalWindowTemplate.hbs'],
             createModalWindow(data) {
                 var template = handlebars.compile(modalWindowTemplate);
                 $('body').append(template(data));
-                this.block=$('.block');
-                this.modalWindow=$('.modalWindow');
+                this.block = $('.block');
+                this.modalWindow = $('.modalWindow');
                 this.inputField = $('#inputField');
                 this.errorPlaceholder = $('#errorPlaceholder');
-                this.okButton=$('#modalOKButton');
-                if(data['cancel']){
-                    this.cancelButton=$('#modalCancelButton');
+                this.okButton = $('#modalOKButton');
+                if (data['cancel']) {
+                    this.cancelButton = $('#modalCancelButton');
                 }
             }
 
             deleteModalWindow() {
-                var self=this;
+                var self = this;
 
                 this.modalWindow.fadeOut();
-                this.block.fadeOut(function(){
+                this.block.fadeOut(function () {
                     self.okButton.off();
                     self.inputField.off();
-                    if(!(self.cancelButton === '')) {
+                    if (!(self.cancelButton === '')) {
                         self.cancelButton.off();
                     }
 
                     self.block.remove();
                     self.modalWindow.remove();
 
-                    self.block='';
-                    self.modalWindow='';
+                    self.block = '';
+                    self.modalWindow = '';
                     self.inputField = '';
                     self.errorPlaceholder = '';
-                    self.okButton='';
-                    self.cancelButton='';
+                    self.okButton = '';
+                    self.cancelButton = '';
                 });
             }
 
@@ -61,15 +61,15 @@ define(['jquery', 'handlebars', 'text!../template/modalWindowTemplate.hbs'],
                 return this.inputField.val().trim();
             }
 
-            getOkButton(){
+            getOkButton() {
                 return this.okButton;
             }
 
-            getCancelButton(){
+            getCancelButton() {
                 return this.cancelButton;
             }
 
-            getInputField(){
+            getInputField() {
                 return this.inputField;
             }
         }

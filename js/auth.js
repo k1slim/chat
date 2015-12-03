@@ -1,13 +1,13 @@
 "use strict";
 define(['jquery', 'io', 'modalWindow', 'titleNotifier'],
-    function ($, io, modalWindow ) {
+    function ($, io, modalWindow) {
 
         class Auth {
-            constructor(){
+            constructor() {
                 //Parameters
                 var self = this;
 
-                this.name='';
+                this.name = '';
                 this.nickPlaceholder = $(".nickField");
 
                 this.socket = io();
@@ -47,7 +47,7 @@ define(['jquery', 'io', 'modalWindow', 'titleNotifier'],
                 this.socket.emit('nick', this.name);
             }
 
-            getName(){
+            getName() {
                 return this.name;
             }
         }
