@@ -4,6 +4,7 @@ define(['jquery', 'handlebars', 'text!../template/modalWindowTemplate.hbs'],
         class ModalWindow {
 
             constructor() {
+                //Parameters
                 this.block='';
                 this.modalWindow='';
                 this.inputField = '';

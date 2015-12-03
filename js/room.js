@@ -4,6 +4,7 @@ define(['jquery', 'io', 'handlebars', 'helpers', 'modalWindow', 'text!../templat
 
         class Room {
             constructor() {
+                //Parameters
                 this.rooms = $(".roomContent");
                 this.room = '';
 
@@ -13,6 +14,7 @@ define(['jquery', 'io', 'handlebars', 'helpers', 'modalWindow', 'text!../templat
 
                 this.socket = io();
 
+                //Listeners
                 this.socket.on('getRooms', function (data) {
                     self.parseRoomList(data.data);
                     if (data.activeRoom) {
